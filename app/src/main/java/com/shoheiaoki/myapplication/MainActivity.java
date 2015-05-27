@@ -4,16 +4,26 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 
@@ -26,10 +36,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         mainListView = (ListView) findViewById(R.id.myListView);
 
-        HashMap<String,ArrayList<Product>> cp = createSampleData();
+        LinkedHashMap<String, ArrayList<Product>> cp = doJSONSerialize();
 
         ArrayList<Category> categories = new ArrayList<>();
-        for(Map.Entry<String,ArrayList<Product>> e: cp.entrySet()){
+        for (Map.Entry<String, ArrayList<Product>> e : cp.entrySet()) {
             String category = e.getKey();
             ArrayList<Product> products = e.getValue();
             Category c = new Category();
@@ -38,11 +48,19 @@ public class MainActivity extends Activity {
             categories.add(c);
         }
 
-        CategoryAdapter cAdapter = new CategoryAdapter(this,0,categories);
+        CategoryAdapter cAdapter = new CategoryAdapter(this, 0, categories);
         mainListView.setAdapter(cAdapter);
+
+        Button uploadBtn = (Button)findViewById(R.id.uploadBtn);
+        uploadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),"hoge", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    public class CategoryAdapter extends ArrayAdapter<Category>{
+    public class CategoryAdapter extends ArrayAdapter<Category> {
         private LayoutInflater layoutInflater;
 
         public CategoryAdapter(Context context, int resource, ArrayList<Category> categories) {
@@ -52,27 +70,27 @@ public class MainActivity extends Activity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if(convertView==null){
+            if (convertView == null) {
                 convertView = layoutInflater.inflate(
-                       R.layout.row_category,
-                       parent,
-                       false
+                        R.layout.row_category,
+                        parent,
+                        false
                 );
             }
             Category category = (Category) getItem(position);
             TextView cTextView = (TextView) convertView.findViewById(R.id.cTextView);
             cTextView.setText(category.getName());
             ArrayList<Product> products = category.getProducts();
-            ListView subListView =  (ListView) convertView.findViewById(R.id.productListView);
+            ListView subListView = (ListView) convertView.findViewById(R.id.productListView);
 
-            ProductAdapter pAdapter = new ProductAdapter(MainActivity.this,0,products);
+            ProductAdapter pAdapter = new ProductAdapter(MainActivity.this, 0, products);
             subListView.setAdapter(pAdapter);
 
             return convertView;
         }
     }
 
-    public class ProductAdapter extends ArrayAdapter<Product>{
+    public class ProductAdapter extends ArrayAdapter<Product> {
         LayoutInflater layoutInflater;
 
         public ProductAdapter(Context context, int resource, ArrayList<Product> products) {
@@ -82,9 +100,10 @@ public class MainActivity extends Activity {
 
         private int lastFocussedPosition = -1;
         private Handler handler = new Handler();
+
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            if(convertView==null){
+            if (convertView == null) {
                 convertView = layoutInflater.inflate(
                         R.layout.row_product,
                         parent,
@@ -93,29 +112,17 @@ public class MainActivity extends Activity {
             }
             TextView pdTextView = (TextView) convertView.findViewById(R.id.pdTextView);
             TextView priceTextView = (TextView) convertView.findViewById(R.id.priceTextView);
-            final EditText amtEditText = (EditText) convertView.findViewById(R.id.amtEditText);
-            Product p = (Product) getItem(position);
+            TextView amtTextView = (TextView) convertView.findViewById(R.id.amtTextView);
+            Button amtChangeBtn = (Button) convertView.findViewById(R.id.amtChangeBtn);
+            final Product p = (Product) getItem(position);
             pdTextView.setText(p.getName());
-            priceTextView.setText(p.getPrice());
-//            amtEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//                @Override
-//                public void onFocusChange(View v, boolean hasFocus) {
-//                    if (hasFocus) {
-//                        handler.postDelayed(new Runnable() {
-//
-//                            @Override
-//                            public void run() {
-//                                if (lastFocussedPosition == -1 || lastFocussedPosition == position) {
-//                                    lastFocussedPosition = position;
-//                                    amtEditText.requestFocus();
-//                                }
-//                            }
-//                        }, 200);
-//                    } else {
-//                        lastFocussedPosition = -1;
-//                    }
-//                }
-//            });
+            priceTextView.setText(p.getPrice()+" UGX");
+            amtChangeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   Toast.makeText(getApplicationContext(), p.getName()+"\n"+p.getPrice(),Toast.LENGTH_SHORT).show();
+                }
+            });
 
             return convertView;
         }
@@ -163,31 +170,56 @@ public class MainActivity extends Activity {
         }
     }
 
-    protected HashMap<String,ArrayList<Product>> createSampleData(){
-        HashMap<String,ArrayList<Product>> cp = new HashMap<>();
-         ArrayList<Product> products = new ArrayList<>();
-          Product p = new Product();
-          p.setName("cookie1");
-          p.setPrice("100");
-          products.add(p);
-          Product p2 = new Product();
-          p2.setName("cookie1");
-          p2.setPrice("100");
-         products.add(p2);
-        cp.put("cookie",products);
-            ArrayList<Product> products2 = new ArrayList<>();
-            Product p3 = new Product();
-            p3.setName("milk1");
-            p3.setPrice("100");
-            products2.add(p3);
-            Product p4 = new Product();
-            p4.setName("milk2");
-            p4.setPrice("100");
-            products2.add(p4);
-        cp.put("milk",products2);
 
+    protected LinkedHashMap<String, ArrayList<Product>> doJSONSerialize() {
+        LinkedHashMap<String, ArrayList<Product>> cp = new LinkedHashMap<>();
+        try {
+            JSONObject rootJSONObject = new JSONObject(getJSONString());
+            JSONArray rootJSONArray = rootJSONObject.getJSONArray("categories");
+            for (int i = 0; i < rootJSONArray.length(); i++) {
+                JSONObject categoryJSONObject = rootJSONArray.getJSONObject(i);
+                String category_name = categoryJSONObject.getString("name");
+                Log.e("hoge", category_name);
+                ArrayList<Product> products = new ArrayList<>();
+                try {
+                    JSONArray productJSONArray = new JSONArray(categoryJSONObject.getString("products"));
+                    for (int j = 0; j < productJSONArray.length(); j++) {
+                        JSONObject productJSONObject = productJSONArray.getJSONObject(j);
+                        String name = productJSONObject.getString("name");
+                        String price = productJSONObject.getString("price");
+                        Log.e("hoge", name);
+                        Log.e("hoge", price);
+                        Product p = new Product();
+                        p.setName(name);
+                        p.setPrice(price);
+                        products.add(p);
+                    }
+                    cp.put(category_name, products);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return cp;
     }
 
+
+    public String getJSONString() {
+        String json = null;
+        try {
+            InputStream is = getResources().openRawResource(R.raw.product_categories);
+            byte[] buffer = new byte[is.available()];
+            while ((is.read(buffer)) != -1) {
+            }
+            json = new String(buffer);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
 
 }

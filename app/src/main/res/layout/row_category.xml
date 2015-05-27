@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/cTextView"
@@ -13,11 +13,11 @@
         android:text="Category"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <ListView
-        android:id="@+id/productListView"
-        android:descendantFocusability="beforeDescendants"
-        android:layout_width="wrap_content"
-        android:layout_height="130dp"
-        />
+
+        <ListView
+            android:id="@+id/productListView"
+            android:layout_width="wrap_content"
+            android:layout_height="130dp"
+            android:descendantFocusability="beforeDescendants" />
 
 </LinearLayout>
