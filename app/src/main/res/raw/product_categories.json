@@ -1,0 +1,121 @@
+{
+  "categories": [
+    {
+      "name": "Bagiya",
+      "products": [
+        {
+          "name": "Bagiya 1",
+          "price": "10000"
+        },
+        {
+          "name": "Bagiya 2",
+          "price": "20000"
+        }
+      ]
+    },
+    {
+      "name": "Brown Butter",
+      "products": [
+        {
+          "name": "Brown Butter 1",
+          "price": "10000"
+        },
+        {
+          "name": "Brown Butter 2",
+          "price": "20000"
+        }
+      ]
+    },
+    {
+      "name": "Soya Cookie",
+      "products": [
+        {
+          "name": "Soya Cookie 1",
+          "price": "10000"
+        },
+        {
+          "name": "Soya Cookie 2",
+          "price": "20000"
+        }
+      ]
+    },
+    {
+      "name": "Soya Cup",
+      "products": [
+        {
+          "name": "Soya Cup 1",
+          "price": "10000"
+        },
+        {
+          "name": "Soya Cup 2",
+          "price": "20000"
+        }
+      ]
+    },
+    {
+      "name": "Soya Meat",
+      "products": [
+        {
+          "name": "Soya Meat 1",
+          "price": "10000"
+        },
+        {
+          "name": "Soya Meat 2",
+          "price": "20000"
+        }
+      ]
+    },
+    {
+      "name": "Soya Milk",
+      "products": [
+        {
+          "name": "Soya Milk 1",
+          "price": "10000"
+        },
+        {
+          "name": "Soya Milk 2",
+          "price": "20000"
+        }
+      ]
+    },
+    {
+      "name": "Soya Milk Powder",
+      "products": [
+        {
+          "name": "Soya Milk Powder 1",
+          "price": "10000"
+        },
+        {
+          "name": "Soya Milk Powder 2",
+          "price": "20000"
+        }
+      ]
+    },
+    {
+      "name": "Soya Millet",
+      "products": [
+        {
+          "name": "Soya Millet 1",
+          "price": "10000"
+        },
+        {
+          "name": "Soya Millet 2",
+          "price": "20000"
+        }
+      ]
+    },
+    {
+      "name": "Others",
+      "products": [
+        {
+          "name": "Others 1",
+          "price": "10000"
+        },
+        {
+          "name": "Others 2",
+          "price": "20000"
+        }
+      ]
+    }
+  ]
+}
