@@ -5,11 +5,11 @@
       "products": [
         {
           "name": "Bagiya 1",
-          "price": "10000"
+          "price": "10001"
         },
         {
           "name": "Bagiya 2",
-          "price": "20000"
+          "price": "20001"
         }
       ]
     },
@@ -18,11 +18,11 @@
       "products": [
         {
           "name": "Brown Butter 1",
-          "price": "10000"
+          "price": "10002"
         },
         {
           "name": "Brown Butter 2",
-          "price": "20000"
+          "price": "20002"
         }
       ]
     },
@@ -31,11 +31,11 @@
       "products": [
         {
           "name": "Soya Cookie 1",
-          "price": "10000"
+          "price": "10003"
         },
         {
           "name": "Soya Cookie 2",
-          "price": "20000"
+          "price": "20003"
         }
       ]
     },
@@ -44,11 +44,11 @@
       "products": [
         {
           "name": "Soya Cup 1",
-          "price": "10000"
+          "price": "10004"
         },
         {
           "name": "Soya Cup 2",
-          "price": "20000"
+          "price": "20004"
         }
       ]
     },
@@ -57,11 +57,11 @@
       "products": [
         {
           "name": "Soya Meat 1",
-          "price": "10000"
+          "price": "10005"
         },
         {
           "name": "Soya Meat 2",
-          "price": "20000"
+          "price": "20005"
         }
       ]
     },
@@ -70,11 +70,11 @@
       "products": [
         {
           "name": "Soya Milk 1",
-          "price": "10000"
+          "price": "10006"
         },
         {
           "name": "Soya Milk 2",
-          "price": "20000"
+          "price": "20006"
         }
       ]
     },
@@ -83,11 +83,11 @@
       "products": [
         {
           "name": "Soya Milk Powder 1",
-          "price": "10000"
+          "price": "10007"
         },
         {
           "name": "Soya Milk Powder 2",
-          "price": "20000"
+          "price": "20007"
         }
       ]
     },
@@ -96,11 +96,11 @@
       "products": [
         {
           "name": "Soya Millet 1",
-          "price": "10000"
+          "price": "10008"
         },
         {
           "name": "Soya Millet 2",
-          "price": "20000"
+          "price": "20009"
         }
       ]
     },
@@ -109,11 +109,11 @@
       "products": [
         {
           "name": "Others 1",
-          "price": "10000"
+          "price": "10010"
         },
         {
           "name": "Others 2",
-          "price": "20000"
+          "price": "20011"
         }
       ]
     }

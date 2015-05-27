@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,12 +30,14 @@ import java.util.Map;
 
 public class MainActivity extends Activity {
     ListView mainListView;
+    LinearLayout rootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainListView = (ListView) findViewById(R.id.myListView);
+        rootView = (LinearLayout) findViewById(R.id.rootView);
 
         LinkedHashMap<String, ArrayList<Product>> cp = doJSONSerialize();
 
@@ -48,14 +51,22 @@ public class MainActivity extends Activity {
             categories.add(c);
         }
 
-        CategoryAdapter cAdapter = new CategoryAdapter(this, 0, categories);
+        final CategoryAdapter cAdapter = new CategoryAdapter(this, 0, categories);
         mainListView.setAdapter(cAdapter);
 
-        Button uploadBtn = (Button)findViewById(R.id.uploadBtn);
+        Button uploadBtn = (Button) findViewById(R.id.uploadBtn);
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"hoge", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "hoge", Toast.LENGTH_SHORT).show();
+                for (int i = 0; i < cAdapter.getCount(); i++) {
+                    ArrayList<Product> ps = cAdapter.getItem(i).getProducts();
+                    for (int j = 0; j < ps.size(); j++) {
+                        Product p = ps.get(j);
+                        String name = p.getName();
+                        Log.e("hoge", name);
+                    }
+                }
             }
         });
     }
@@ -116,11 +127,11 @@ public class MainActivity extends Activity {
             Button amtChangeBtn = (Button) convertView.findViewById(R.id.amtChangeBtn);
             final Product p = (Product) getItem(position);
             pdTextView.setText(p.getName());
-            priceTextView.setText(p.getPrice()+" UGX");
+            priceTextView.setText(p.getPrice() + " UGX");
             amtChangeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   Toast.makeText(getApplicationContext(), p.getName()+"\n"+p.getPrice(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), p.getName() + "\n" + p.getPrice(), Toast.LENGTH_SHORT).show();
                 }
             });
 
