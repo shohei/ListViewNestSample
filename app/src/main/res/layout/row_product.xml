@@ -32,12 +32,33 @@
         android:text="0"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Button
-        android:id="@+id/amtChangeBtn"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="50dp"
-        android:text="change" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cntUpBtn"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="▲" />
+
+        <Button
+            android:id="@+id/cntDownBtn"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="▼" />
+    </LinearLayout>
+
+    <!--<Button-->
+    <!--android:id="@+id/amtChangeBtn"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="50dp"-->
+    <!--android:text="change" />-->
 
 
 </LinearLayout>

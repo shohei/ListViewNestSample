@@ -3,18 +3,14 @@ package com.shoheiaoki.myapplication;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,21 +19,18 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 
 public class MainActivity extends Activity {
     ListView mainListView;
-    LinearLayout rootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainListView = (ListView) findViewById(R.id.myListView);
-        rootView = (LinearLayout) findViewById(R.id.rootView);
 
         LinkedHashMap<String, ArrayList<Product>> cp = doJSONSerialize();
 
@@ -58,13 +51,13 @@ public class MainActivity extends Activity {
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "hoge", Toast.LENGTH_SHORT).show();
                 for (int i = 0; i < cAdapter.getCount(); i++) {
                     ArrayList<Product> ps = cAdapter.getItem(i).getProducts();
                     for (int j = 0; j < ps.size(); j++) {
                         Product p = ps.get(j);
                         String name = p.getName();
-                        Log.e("hoge", name);
+                        String amount = p.getAmount();
+                        Log.e("hoge", name+" : "+amount);
                     }
                 }
             }
@@ -109,9 +102,6 @@ public class MainActivity extends Activity {
             this.layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         }
 
-        private int lastFocussedPosition = -1;
-        private Handler handler = new Handler();
-
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
@@ -123,17 +113,31 @@ public class MainActivity extends Activity {
             }
             TextView pdTextView = (TextView) convertView.findViewById(R.id.pdTextView);
             TextView priceTextView = (TextView) convertView.findViewById(R.id.priceTextView);
-            TextView amtTextView = (TextView) convertView.findViewById(R.id.amtTextView);
-            Button amtChangeBtn = (Button) convertView.findViewById(R.id.amtChangeBtn);
             final Product p = (Product) getItem(position);
             pdTextView.setText(p.getName());
             priceTextView.setText(p.getPrice() + " UGX");
-            amtChangeBtn.setOnClickListener(new View.OnClickListener() {
+            final TextView amtTextView = (TextView) convertView.findViewById(R.id.amtTextView);
+            Button cntUpBtn = (Button) convertView.findViewById(R.id.cntUpBtn);
+            Button cntDownBtn = (Button) convertView.findViewById(R.id.cntDownBtn);
+            cntUpBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getApplicationContext(), p.getName() + "\n" + p.getPrice(), Toast.LENGTH_SHORT).show();
+                   int cnt = Integer.valueOf(amtTextView.getText().toString());
+                   cnt = cnt + 1;
+                   amtTextView.setText(String.valueOf(cnt));
+                   p.setAmount(String.valueOf(cnt));
                 }
             });
+            cntDownBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int cnt = Integer.valueOf(amtTextView.getText().toString());
+                    cnt = cnt - 1;
+                    amtTextView.setText(String.valueOf(cnt));
+                    p.setAmount(String.valueOf(cnt));
+                }
+            });
+
 
             return convertView;
         }
@@ -142,6 +146,20 @@ public class MainActivity extends Activity {
     public class Product {
         private String name;
         private String price;
+        private String amount;
+
+        public Product() {
+           amount = "0";
+        }
+
+        public void setAmount(String amount) {
+            this.amount = amount;
+        }
+
+        public String getAmount() {
+            return amount;
+        }
+
 
         public String getPrice() {
             return price;
@@ -179,6 +197,7 @@ public class MainActivity extends Activity {
         public void setProducts(ArrayList<Product> products) {
             this.products = products;
         }
+
     }
 
 

@@ -8,6 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
+            android:windowSoftInputMode="stateVisible"
             android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
